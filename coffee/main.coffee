@@ -14,12 +14,12 @@ test(
   'img → jxl'
   (t) =>
     r = await imgJxl(
-      readFileSync join ROOT, 'logo.webp'
-      'webp'
+      readFileSync join ROOT, '1.jpeg'
+      'jpeg'
       1.0 # https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
     )
     write(
-      join(ROOT, 'logo.jxl')
+      join(ROOT, '1.jxl')
       r
     )
     t.true(r instanceof Buffer)
