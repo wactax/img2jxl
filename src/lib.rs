@@ -56,24 +56,35 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
       image::load_from_memory_with_format(bin, image::guess_format(bin)?)?
     }
   };
-  let width = img.width();
-  let height = img.height();
-  let img = img.into_rgba8();
-  let img = EncoderFrame::new(img.as_raw()).num_channels(4);
 
   let lossless = pkg.quality == 0.0;
   let mut bind = encoder_builder();
+  let has_alpha = img.color().has_alpha();
   let mut encoder = bind
     .speed(EncoderSpeed::Kitten)
-    .has_alpha(true)
+    .has_alpha(has_alpha)
     .lossless(lossless);
   if !lossless {
     // https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
     encoder = encoder.quality(pkg.quality);
   };
+  let width = img.width();
+  let height = img.height();
 
-  let buffer: EncoderResult<u8> = encoder.build()?.encode_frame(&img, width, height)?;
-  Ok(buffer.data.into())
+  macro_rules! encode {
+    ($rgb:ident,$n:expr) => {{
+      let img = img.$rgb();
+      let img = EncoderFrame::new(img.as_raw()).num_channels($n);
+      let buffer: EncoderResult<u8> = encoder.build()?.encode_frame(&img, width, height)?;
+      buffer.data.into()
+    }};
+  }
+
+  Ok(if has_alpha {
+    encode!(into_rgba8, 4)
+  } else {
+    encode!(into_rgb8, 3)
+  })
 }
 
 #[allow(dead_code)]
