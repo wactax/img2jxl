@@ -49,7 +49,7 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
 
   let mut bind = encoder_builder();
   // https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
-  let mut encoder = bind.speed(EncoderSpeed::Kitten).quality(pkg.quality);
+  let encoder = bind.speed(EncoderSpeed::Kitten).quality(pkg.quality);
   if let ImageFormat::Jpeg = format {
     let mut encoder = encoder.build()?;
     return Ok(encoder.encode_jpeg(bin)?.data.into());
@@ -67,7 +67,7 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
 
   let lossless = pkg.quality == 0.0;
   let has_alpha = img.color().has_alpha();
-  let mut encoder = bind.has_alpha(has_alpha).lossless(lossless);
+  let encoder = bind.has_alpha(has_alpha).lossless(lossless);
   let width = img.width();
   let height = img.height();
 
