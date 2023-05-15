@@ -6,7 +6,7 @@ set -ex
 
 export NATIVE=1
 
-#./sh/jpegxl-rs.sh
+./sh/jpegxl-rs.sh
 
 source ./sh/cflag.sh
 
