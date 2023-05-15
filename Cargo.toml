@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "w5_svg2webp"
+name = "w5_img2jxl"
 version = "0.0.0"
 
 [lib]

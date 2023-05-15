@@ -1,11 +1,11 @@
 [‼️]: ✏️README.mdt
 
-# @w5/svg2webp
+# @w5/img2jxl
 
 ## Install
 
 ```
-pnpm i -g @w5/svg2webp
+pnpm i -g @w5/img2jxl
 ```
 
 ## Test

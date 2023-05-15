@@ -1,5 +1,5 @@
 {
-  "name": "@w5/svg2webp",
+  "name": "@w5/img2jxl",
   "version": "0.0.29",
   "type": "module",
   "exports": {
@@ -8,9 +8,9 @@
     }
   },
   "types": "index.d.ts",
-  "homepage": "https://github.com/wactax/svg2webp.git",
+  "homepage": "https://github.com/wactax/img2jxl.git",
   "napi": {
-    "name": "svg2webp",
+    "name": "img2jxl",
     "triples": {
       "additional": [
         "aarch64-apple-darwin",

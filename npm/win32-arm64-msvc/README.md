@@ -1,3 +1,3 @@
-# `@w5/svg2webp-win32-arm64-msvc`
+# `@w5/img2jxl-win32-arm64-msvc`
 
-This is the **aarch64-pc-windows-msvc** binary for `@w5/svg2webp`
+This is the **aarch64-pc-windows-msvc** binary for `@w5/img2jxl`

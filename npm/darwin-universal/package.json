@@ -1,12 +1,12 @@
 {
-  "name": "@w5/svg2webp-darwin-universal",
+  "name": "@w5/img2jxl-darwin-universal",
   "version": "0.0.0",
   "os": [
     "darwin"
   ],
-  "main": "svg2webp.darwin-universal.node",
+  "main": "img2jxl.darwin-universal.node",
   "files": [
-    "svg2webp.darwin-universal.node"
+    "img2jxl.darwin-universal.node"
   ],
   "license": "MIT",
   "engines": {
