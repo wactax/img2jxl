@@ -6,6 +6,10 @@ set -ex
 
 export NATIVE=1
 
+if ! [ -x "$(command -v watchexec)" ]; then
+  npm install -g yarn
+fi
+
 ./sh/jpegxl-rs.sh
 
 source ./sh/cflag.sh
