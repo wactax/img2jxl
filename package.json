@@ -59,8 +59,5 @@
     "universal": "napi universal",
     "version": "napi version"
   },
-  "packageManager": "yarn@3.5.1",
-  "dependencies": {
-    "@w5/utf8": "^0.0.3"
-  }
+  "packageManager": "yarn@3.5.1"
 }

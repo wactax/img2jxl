@@ -1,6 +1,6 @@
 #!/usr/bin/env coffee
 
-> ../index.js:svgWebp
+> ../index.js:imgJxl
   ava:test
   path > join dirname
   @w5/uridir
@@ -11,16 +11,18 @@
 ROOT = dirname uridir import.meta
 
 test(
-  'svg → webp'
+  'img → jxl'
   (t) =>
-    r = await svgWebp(
-      readFileSync join ROOT, 'logo.svg'
-      80
+    r = await imgJxl(
+      readFileSync join ROOT, 'logo.webp'
+      'webp'
+      1.0 # https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
     )
     write(
-      join(ROOT, 'logo.webp')
+      join(ROOT, 'logo.jxl')
       r
     )
     t.true(r instanceof Buffer)
+    # t.pass()
     return
 )

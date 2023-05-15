@@ -256,8 +256,7 @@ if (!nativeBinding) {
 }
 
 ;
-import autoe from "@w5/utf8/autoe.js";
-export default (svg, quality = 82) =>
-	nativeBinding.svgWebp(autoe(svg), quality);
+export default (img, ext = undefined, quality = 1) =>
+	nativeBinding.imgJxl(img, ext, quality);
 
-export const svgWebp = nativeBinding.svgWebp;
+export const imgJxl = nativeBinding.imgJxl;
