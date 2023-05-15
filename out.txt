@@ -1,1 +1,5 @@
 
+  ✔ img → jxl (1.6s)
+  ─
+
+  1 test passed
