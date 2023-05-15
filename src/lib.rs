@@ -1,5 +1,5 @@
 // use image::EncodableLayout;
-use image::{DynamicImage, ImageBuffer, ImageFormat, Rgba};
+use image::ImageFormat;
 use jpegxl_rs::{
   encode::{EncoderFrame, EncoderResult, EncoderSpeed},
   encoder_builder,
@@ -21,7 +21,7 @@ impl Task for Pkg {
   type JsValue = Buffer;
 
   fn compute(&mut self) -> Result<Self::Output> {
-    Ok(_img_jxl(&self)?)
+    Ok(_img_jxl(self)?)
   }
 
   fn resolve(&mut self, _: Env, output: Self::Output) -> Result<Self::JsValue> {
@@ -71,7 +71,7 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
   };
 
   let buffer: EncoderResult<u8> = encoder.build()?.encode_frame(&img, width, height)?;
-  return Ok(buffer.data.into());
+  Ok(buffer.data.into())
 }
 
 #[allow(dead_code)]
