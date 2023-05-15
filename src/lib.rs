@@ -51,7 +51,7 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
   // https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
   let lossless = pkg.quality == 0.0;
   let encoder = bind
-    .speed(EncoderSpeed::Kitten)
+    .speed(EncoderSpeed::Tortoise)
     .quality(pkg.quality)
     .lossless(lossless);
   if let ImageFormat::Jpeg = format {
