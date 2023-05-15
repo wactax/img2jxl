@@ -7,14 +7,15 @@ cd $DIR
 os_type=$(uname)
 
 source ./sh/cflag.sh
-
+cd lib
 if [ ! -d "jpegxl-rs" ]; then
   git clone --recursive --shallow-submodules --depth=1 \
     https://github.com/inflation/jpegxl-rs.git
 
-  cd jpegxl-rs/jpegxl-src/libjxl
-  ./deps.sh && cmake . -DBUILD_TESTING=OFF && make -j $(nproc) && sudo make install
-  rm CMakeCache.txt
-
-  cd $DIR
 fi
+
+cd jpegxl-rs/jpegxl-src/libjxl
+./deps.sh && cmake . -DBUILD_TESTING=OFF && make -j $(nproc) && sudo make install
+rm CMakeCache.txt
+
+cd $DIR
