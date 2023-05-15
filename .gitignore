@@ -188,7 +188,9 @@ $RECYCLE.BIN/
 Cargo.lock
 
 .pnp.*
-.yarn/
-!.yarn/releases/yarn-*.cjs
 
 *.node
+
+.yarn/cache/*
+.yarn/*.gz
+!.yarn/releases/yarn-*.cjs
