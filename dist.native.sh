@@ -10,7 +10,10 @@ export NATIVE=1
 
 source ./sh/cflag.sh
 
-cargo build $RUST_FEATURES --release --target $RUST_TARGET
+#cargo build $RUST_FEATURES --release --target $RUST_TARGET
+
+yarn
+yarn build
 
 # if [[ $(uname -s) == Linux ]]; then
 #   mkdir -p /mnt/bin
