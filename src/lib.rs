@@ -32,6 +32,7 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
   let bin = &pkg.bin;
   let guessed;
   let format;
+  #[allow(clippy::never_loop)]
   loop {
     if let Some(ext) = &pkg.ext {
       if let Some(f) = ImageFormat::from_mime_type(ext) {
