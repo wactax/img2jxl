@@ -16,7 +16,7 @@ test(
     r = await imgJxl(
       readFileSync join ROOT, '1.jpeg'
       'jpeg'
-      1.0 # https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
+      80
     )
     write(
       join(ROOT, '1.jxl')
