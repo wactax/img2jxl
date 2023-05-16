@@ -16,7 +16,7 @@ test(
     r = await imgJxl(
       readFileSync join ROOT, '1.jpeg'
       'jpeg'
-      80
+      1.0
     )
     write(
       join(ROOT, '1.jxl')
