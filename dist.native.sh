@@ -6,11 +6,19 @@ set -ex
 
 export NATIVE=1
 
+if ! [ -x "$(command -v watchexec)" ]; then
+  npm install -g yarn
+fi
+
 ./sh/jpegxl-rs.sh
 
 source ./sh/cflag.sh
 
 #cargo build $RUST_FEATURES --release --target $RUST_TARGET
+
+if ! [ -x "$(command -v yarn)" ]; then
+  npm install -g yarn
+fi
 
 yarn
 yarn build
