@@ -49,13 +49,15 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
 
   let mut bind = encoder_builder();
   // https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
-  let lossless = pkg.quality == 0.0;
-  let encoder = bind
-    .speed(EncoderSpeed::Tortoise)
-    .quality(pkg.quality)
-    .lossless(lossless);
+  let mut quality = pkg.quality;
+  let mut lossless = quality == 0.0;
+
   if let ImageFormat::Jpeg = format {
-    let mut encoder = encoder.build()?;
+    let mut encoder = bind
+      .quality(quality)
+      .lossless(lossless)
+      .speed(EncoderSpeed::Tortoise)
+      .build()?;
     return Ok(encoder.encode_jpeg(bin)?.data.into());
   }
 
@@ -73,6 +75,19 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
   let encoder = bind.has_alpha(has_alpha);
   let width = img.width();
   let height = img.height();
+
+  let speed = if width > 2800 || height > 2800 {
+    // 大图用无损压缩太慢了
+    if lossless {
+      lossless = false;
+      quality = 1.0;
+    };
+    EncoderSpeed::Squirrel
+  } else {
+    EncoderSpeed::Tortoise
+  };
+
+  let encoder = encoder.quality(quality).speed(speed).lossless(lossless);
 
   macro_rules! encode {
     ($rgb:ident,$n:expr) => {{
