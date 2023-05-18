@@ -256,7 +256,7 @@ if (!nativeBinding) {
 }
 
 ;
-export default (img, ext = undefined, quality = 1) =>
+export default (img, ext = undefined, quality = 80) =>
 	nativeBinding.imgJxl(img, ext, quality);
 
 export const imgJxl = nativeBinding.imgJxl;
