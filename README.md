@@ -47,7 +47,7 @@ output :
 
 ```
 
-  ✔ img → jxl (248ms)
+  ✔ img → jxl (246ms)
   ─
 
   1 test passed
