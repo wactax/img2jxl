@@ -28,6 +28,7 @@ impl Task for Pkg {
     Ok(output)
   }
 }
+
 fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
   let bin = &pkg.bin;
   let guessed;
@@ -58,7 +59,9 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
       .lossless(lossless)
       .speed(EncoderSpeed::Tortoise)
       .build()?;
-    return Ok(encoder.encode_jpeg(bin)?.data.into());
+    if let Ok(r) = encoder.encode_jpeg(bin) {
+      return Ok(r.data.into());
+    }
   }
 
   let img = match image::load_from_memory_with_format(bin, format) {
@@ -82,7 +85,11 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
       lossless = false;
       quality = 1.0;
     };
-    EncoderSpeed::Squirrel
+    if width > 7680 || height > 4320 {
+      EncoderSpeed::Hare
+    } else {
+      EncoderSpeed::Squirrel
+    }
   } else {
     EncoderSpeed::Tortoise
   };
@@ -110,3 +117,39 @@ pub fn img_jxl(bin: Buffer, ext: Option<String>, quality: f64) -> AsyncTask<Pkg>
   let quality = quality as f32;
   AsyncTask::new(Pkg { bin, quality, ext })
 }
+
+// #[cfg(test)]
+// mod test {
+//   use std::{fmt::format, fs::File, io, io::prelude::*};
+//
+//   use super::*;
+//
+//   #[test]
+//   fn test() -> anyhow::Result<()> {
+//     let dir = std::env::current_dir()?;
+//     let img = dir.join("img/1.jpg");
+//
+//     let mut f = File::open(img)?;
+//     let mut bin = Vec::new();
+//     f.read_to_end(&mut bin)?;
+//
+//     let mut bind = encoder_builder();
+//     let mut quality = 1.0;
+//     let mut lossless = false;
+//     let mut encoder = bind
+//       .quality(quality)
+//       .lossless(lossless)
+//       .speed(EncoderSpeed::Tortoise)
+//       .build()?;
+//
+//     let img = image::load_from_memory(&bin)?;
+//     let img = img.into_rgb8();
+//     // let out = encoder.encode_jpeg(&bin)?.data;
+//     let width = img.width();
+//     let height = img.height();
+//     let img = EncoderFrame::new(img.as_raw()).num_channels(3);
+//     let buffer: EncoderResult<u8> = encoder.encode_frame(&img, width, height)?;
+//
+//     Ok(())
+//   }
+// }
