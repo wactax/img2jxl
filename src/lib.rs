@@ -10,7 +10,7 @@ use napi::{
 };
 use napi_derive::napi;
 
-struct Pkg {
+pub struct Pkg {
   bin: Buffer,
   quality: f32,
   ext: Option<String>,
@@ -105,9 +105,8 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
   })
 }
 
-#[allow(dead_code)]
 #[napi]
-fn img_jxl(bin: Buffer, ext: Option<String>, quality: f64) -> AsyncTask<Pkg> {
+pub fn img_jxl(bin: Buffer, ext: Option<String>, quality: f64) -> AsyncTask<Pkg> {
   let quality = quality as f32;
   AsyncTask::new(Pkg { bin, quality, ext })
 }
