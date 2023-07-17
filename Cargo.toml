@@ -14,8 +14,8 @@ jpegxl-sys = "0.8.2"
 
 [dependencies.jpegxl-rs]
 version = "0.8.2"
-features = ["vendored"]
 
+#features = ["vendored"]
 [build-dependencies]
 napi-build = "2.0.1"
 
