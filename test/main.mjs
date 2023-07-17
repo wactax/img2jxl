@@ -22,9 +22,12 @@ import {
 ROOT = dirname(uridir(import.meta));
 
 test('img → jxl', async(t) => {
-  var r;
-  r = (await imgJxl(readFileSync(join(ROOT, '1.jpeg')), 'jpeg', 1.0));
+  var h, r, w;
+  [r, w, h] = (await imgJxl(readFileSync(join(ROOT, '1.jpeg')), 'jpeg', 1.0));
+  console.log({w, h});
   write(join(ROOT, '1.jxl'), r);
+  t.is(w, 1000);
+  t.is(h, 667);
   t.true(r instanceof Buffer);
 });
 

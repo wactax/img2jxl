@@ -5,7 +5,7 @@ use jpegxl_rs::{
   encoder_builder,
 };
 use napi::{
-  bindgen_prelude::{AsyncTask, Buffer},
+  bindgen_prelude::{Array, AsyncTask, Buffer},
   Env, Result, Task,
 };
 use napi_derive::napi;
@@ -17,19 +17,23 @@ pub struct Pkg {
 }
 
 impl Task for Pkg {
-  type Output = Buffer;
-  type JsValue = Buffer;
+  type Output = (Buffer, u32, u32);
+  type JsValue = Array;
 
   fn compute(&mut self) -> Result<Self::Output> {
     Ok(_img_jxl(self)?)
   }
 
-  fn resolve(&mut self, _: Env, output: Self::Output) -> Result<Self::JsValue> {
-    Ok(output)
+  fn resolve(&mut self, env: Env, output: Self::Output) -> Result<Self::JsValue> {
+    let mut arr = env.create_array(3)?;
+    arr.set(0, output.0)?;
+    arr.set(1, output.1)?;
+    arr.set(2, output.2)?;
+    Ok(arr)
   }
 }
 
-fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
+fn _img_jxl(pkg: &Pkg) -> anyhow::Result<(Buffer, u32, u32)> {
   let bin = &pkg.bin;
   let guessed;
   let format;
@@ -48,6 +52,18 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
     break;
   }
 
+  let img = match image::load_from_memory_with_format(bin, format) {
+    Ok(r) => r,
+    Err(err) => {
+      if guessed {
+        Err(err)?;
+      };
+      image::load_from_memory_with_format(bin, image::guess_format(bin)?)?
+    }
+  };
+  let width = img.width();
+  let height = img.height();
+
   let mut bind = encoder_builder();
   // https://docs.rs/jpegxl-rs/latest/jpegxl_rs/encode/struct.JxlEncoderBuilder.html#method.quality
   let mut quality = pkg.quality;
@@ -60,24 +76,12 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
       .speed(EncoderSpeed::Tortoise)
       .build()?;
     if let Ok(r) = encoder.encode_jpeg(bin) {
-      return Ok(r.data.into());
+      return Ok((r.data.into(), width, height));
     }
   }
 
-  let img = match image::load_from_memory_with_format(bin, format) {
-    Ok(r) => r,
-    Err(err) => {
-      if guessed {
-        Err(err)?;
-      };
-      image::load_from_memory_with_format(bin, image::guess_format(bin)?)?
-    }
-  };
-
   let has_alpha = img.color().has_alpha();
   let encoder = bind.has_alpha(has_alpha);
-  let width = img.width();
-  let height = img.height();
 
   let speed = if width > 2800 || height > 2800 {
     // 大图用无损压缩太慢了
@@ -101,7 +105,7 @@ fn _img_jxl(pkg: &Pkg) -> anyhow::Result<Buffer> {
       let img = img.$rgb();
       let img = EncoderFrame::new(img.as_raw()).num_channels($n);
       let buffer: EncoderResult<u8> = encoder.build()?.encode_frame(&img, width, height)?;
-      buffer.data.into()
+      (buffer.data.into(), width, height)
     }};
   }
 
