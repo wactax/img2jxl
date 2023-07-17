@@ -22,9 +22,10 @@ import {
 ROOT = dirname(uridir(import.meta));
 
 test('img → jxl', async(t) => {
-  var h, r, w;
+  var begin, h, r, w;
+  begin = new Date();
   [r, w, h] = (await imgJxl(readFileSync(join(ROOT, '1.jpeg')), 'jpeg', 1.0));
-  console.log({w, h});
+  console.log({w, h}, new Date() - begin);
   write(join(ROOT, '1.jxl'), r);
   t.is(w, 1000);
   t.is(h, 667);

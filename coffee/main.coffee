@@ -13,12 +13,13 @@ ROOT = dirname uridir import.meta
 test(
   'img → jxl'
   (t) =>
+    begin = new Date
     [r,w,h] = await imgJxl(
       readFileSync join ROOT, '1.jpeg'
       'jpeg'
       1.0
     )
-    console.log {w,h}
+    console.log {w,h}, new Date - begin
     write(
       join(ROOT, '1.jxl')
       r
