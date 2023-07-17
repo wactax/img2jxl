@@ -7,6 +7,7 @@ cd $DIR
 os_type=$(uname)
 
 source ./sh/cflag.sh
+mkdir -p lib
 cd lib
 if [ ! -d "jpegxl-rs" ]; then
   git clone --recursive --shallow-submodules --depth=1 \
