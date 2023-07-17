@@ -7,8 +7,8 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-anyhow = "1.0.71"
-napi-derive = "2.12.5"
+anyhow = "1.0.72"
+napi-derive = "2.13.0"
 image = "0.24.6"
 # jpegxl-sys = "0.8.1"
 # jpegxl-rs = "0.8.1"
@@ -29,6 +29,6 @@ debug-assertions = false
 strip = true
 
 [dependencies.napi]
-version = "2.12.6"
+version = "2.13.2"
 default-features = false
 features = ["napi8", "error_anyhow"]
