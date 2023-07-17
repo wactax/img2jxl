@@ -1,3 +1,0 @@
-[submodule "lib/jpegxl-rs"]
-	path = lib/jpegxl-rs
-	url = git@github.com:inflation/jpegxl-rs.git
