@@ -12,6 +12,10 @@ fi
 export RUSTFLAGS='--cfg reqwest_unstable'
 export RUST_LOG=$RUST_LOG,watchexec=off,watchexec_cli=off,globset=warn
 
+if [ ! -d "lib/jpegxl-rs" ]; then
+  ./sh/jpegxl-rs.sh
+fi
+
 bunx concurrently --kill-others --raw -- \
   "watchexec -n --project-origin . -w ./coffee --exts coffee -- ./test.sh" \
   "watchexec -pn --project-origin . -w ./src --exts rs,toml -r -- ./run.sh"

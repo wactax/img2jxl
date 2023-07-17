@@ -10,12 +10,9 @@ crate-type = ["cdylib"]
 anyhow = "1.0.72"
 napi-derive = "2.13.0"
 image = "0.24.6"
-jpegxl-sys = "0.8.2"
+jpegxl-sys = { path = "./lib/jpegxl-rs/jpegxl-sys" }
+jpegxl-rs = { path = "./lib/jpegxl-rs/jpegxl-rs" } #, features = ["vendored"] }
 
-[dependencies.jpegxl-rs]
-version = "0.8.2"
-
-#features = ["vendored"]
 [build-dependencies]
 napi-build = "2.0.1"
 
