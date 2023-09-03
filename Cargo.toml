@@ -7,9 +7,9 @@ version = "0.0.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-anyhow = "1.0.72"
+anyhow = "1.0.75"
 napi-derive = "2.13.0"
-image = "0.24.6"
+image = "0.24.7"
 jpegxl-sys = { path = "./lib/jpegxl-rs/jpegxl-sys" }
 jpegxl-rs = { path = "./lib/jpegxl-rs/jpegxl-rs", features = ["vendored"] }
 
@@ -27,6 +27,6 @@ debug-assertions = false
 strip = true
 
 [dependencies.napi]
-version = "2.13.2"
+version = "2.13.3"
 default-features = false
 features = ["napi8", "error_anyhow"]
