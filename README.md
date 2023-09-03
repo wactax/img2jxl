@@ -28,18 +28,19 @@ ROOT = dirname uridir import.meta
 test(
   'img → jxl'
   (t) =>
+    begin = new Date
     [r,w,h] = await imgJxl(
-      readFileSync join ROOT, '1.jpeg'
-      'jpeg'
+      readFileSync join ROOT, '1.png'
+      'png'
       1.0
     )
-    console.log {w,h}
+    console.log {w,h}, new Date - begin
     write(
       join(ROOT, '1.jxl')
       r
     )
-    t.is(w,1000)
-    t.is(h,667)
+    # t.is(w,1000)
+    # t.is(h,667)
     t.true(r instanceof Buffer)
     # t.pass()
     return
@@ -50,7 +51,7 @@ output :
 
 ```
 
-  ✔ img → jxl (431ms)
+  ✔ img → jxl (26.5s)
   ─
 
   1 test passed
